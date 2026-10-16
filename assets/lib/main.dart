@@ -105,7 +105,7 @@ class _MyLoveState extends State<MyLove> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 34,
-                            fontFamily: 'pp',
+
                             fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),
