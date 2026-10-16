@@ -17,7 +17,9 @@ class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
   @override
-  void initState() {}
+  void initState() {
+    _controller.play();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class _MyLoveState extends State<MyLove> {
                           ),
                         ),
                         Text(
-                          '2026/10/24',
+                          'Soon',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 34,
@@ -123,7 +125,7 @@ class _MyLoveState extends State<MyLove> {
                   minimumSize: Size(10, 5),
                   maximumSize: Size(20, 30),
                   shouldLoop: true,
-                  colors: const [Colors.white, Colors.black],
+                  colors: const [Color.fromARGB(255, 224, 3, 3), Colors.white],
                 ),
               ),
             ],
