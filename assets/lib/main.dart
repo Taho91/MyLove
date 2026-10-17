@@ -165,13 +165,13 @@ class _MyLoveState extends State<MyLove> {
                     )
                   : SizedBox(),
 
-              GestureDetector(
-                onTap: () async {
-                  await _videoPlayerController.play();
-                },
-                child: AnimatedOpacity(
-                  opacity: isEnding ? 0 : 1,
-                  duration: Duration(seconds: 2),
+              AnimatedOpacity(
+                opacity: isEnding ? 0 : 1,
+                duration: Duration(seconds: 2),
+                child: GestureDetector(
+                  onTap: () async {
+                    await _videoPlayerController.play();
+                  },
                   child: SizedBox.expand(
                     child: _videoPlayerController.value.isInitialized
                         ? FittedBox(
