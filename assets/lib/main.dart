@@ -95,7 +95,42 @@ class _MyLoveState extends State<MyLove> {
                   colors: const [Color.fromARGB(255, 177, 7, 7)],
                 ),
               ),
-
+              !isEnding
+                  ? AnimatedOpacity(
+                      opacity: isEnding ? 0 : 1,
+                      duration: Duration(seconds: 2),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await _videoPlayerController.play();
+                        },
+                        child: SizedBox.expand(
+                          child: _videoPlayerController.value.isInitialized
+                              ? FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: SizedBox(
+                                    width:
+                                        _videoPlayerController.value.size.width,
+                                    height: _videoPlayerController
+                                        .value
+                                        .size
+                                        .height,
+                                    child: VideoPlayer(_videoPlayerController),
+                                  ),
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.pink,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
               isEnding
                   ? Container(
                       width: double.infinity,
@@ -164,37 +199,6 @@ class _MyLoveState extends State<MyLove> {
                       ),
                     )
                   : SizedBox(),
-
-              AnimatedOpacity(
-                opacity: isEnding ? 0 : 1,
-                duration: Duration(seconds: 2),
-                child: GestureDetector(
-                  onTap: () async {
-                    await _videoPlayerController.play();
-                  },
-                  child: SizedBox.expand(
-                    child: _videoPlayerController.value.isInitialized
-                        ? FittedBox(
-                            fit: BoxFit.cover,
-                            child: SizedBox(
-                              width: _videoPlayerController.value.size.width,
-                              height: _videoPlayerController.value.size.height,
-                              child: VideoPlayer(_videoPlayerController),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: Colors.white,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.pink,
-                              ),
-                            ),
-                          ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
