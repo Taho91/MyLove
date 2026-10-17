@@ -165,7 +165,7 @@ class _MyLoveState extends State<MyLove> {
                     )
                   : SizedBox(),
 
-              ?GestureDetector(
+              GestureDetector(
                 onTap: () async {
                   await _videoPlayerController.play();
                 },
