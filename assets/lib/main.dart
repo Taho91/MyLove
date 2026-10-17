@@ -1,7 +1,12 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:video_player/video_player.dart';
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyLove());
@@ -18,18 +23,27 @@ class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
   late final VideoPlayerController _videoPlayerController;
+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
 
-  bool isOpen = false;
   bool isEnding = false;
   @override
   void initState() {
-    _controller.play();
     _videoPlayerController = VideoPlayerController.asset('lib/vv.mp4');
-    _videoPlayerController.initialize().whenComplete(() {
-      setState(() {
-        isOpen = false;
-        isEnding = true;
-      });
+    _videoPlayerController.initialize().then((_) {
+      setState(() {});
+    });
+    _videoPlayerController.addListener(() {
+      final value = _videoPlayerController.value;
+      if (value.isInitialized &&
+          value.duration > Duration.zero &&
+          value.position >= value.duration &&
+          !isEnding) {
+        setState(() {
+          isEnding = true;
+          _controller.play();
+          _audioPlayer.play(AssetSource('m.mp3'));
+        });
+      }
     });
     super.initState();
   }
@@ -48,69 +62,64 @@ class _MyLoveState extends State<MyLove> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
-          color: const Color.fromARGB(255, 254, 59, 137),
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 254, 59, 137),
+          ),
           child: Stack(
             children: [
               Padding(
-                padding: isEnding
-                    ? const EdgeInsets.only(bottom: 100)
-                    : EdgeInsets.zero,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isOpen = true;
-                      _videoPlayerController.play().whenComplete(() {
-                        setState(() {
-                          isEnding = true;
-                        });
-                      });
-                    });
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('lib/aa.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    child: Center(
-                      child: Stack(
-                        children: [
-                          isEnding
-                              ? Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        const Color.fromARGB(255, 254, 59, 137),
-                                        Colors.transparent,
-                                        Colors.transparent,
-                                      ],
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                    ),
-                                  ),
-                                )
-                              : SizedBox.shrink(),
-
-                          SizedBox(height: 20),
-
-                          // CountdownTimer(
-                          //   controller: controller,
-                          //   onEnd: onEnd,
-                          //   endTime: endTime,
-                          // ),
-                        ],
-                      ),
+                padding: const EdgeInsets.only(bottom: 100),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('lib/doha.jpg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
+                  child: Center(child: SizedBox(height: 20)),
                 ),
               ),
+
+              Align(
+                alignment: Alignment(0.5, -1.3),
+                child: ConfettiWidget(
+                  confettiController: _controller,
+                  blastDirectionality: BlastDirectionality.directional,
+                  emissionFrequency: 0.02,
+                  gravity: 0.1,
+                  minimumSize: Size(10, 5),
+                  maximumSize: Size(10, 20),
+                  shouldLoop: true,
+                  colors: const [Color.fromARGB(255, 177, 7, 7)],
+                ),
+              ),
+
+              isEnding
+                  ? Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            const Color.fromARGB(255, 254, 59, 137),
+                            const Color.fromARGB(255, 254, 59, 137),
+                            const Color.fromARGB(134, 254, 59, 137),
+                            Colors.transparent,
+                            Colors.transparent,
+                            Colors.transparent,
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
               isEnding
                   ? Align(
                       alignment: Alignment(0, 0.8),
                       child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(10),
                         child: GestureDetector(
                           onTap: () {
                             _audioPlayer.play(AssetSource('m.mp3'));
@@ -119,79 +128,167 @@ class _MyLoveState extends State<MyLove> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'زفاف',
+                                'زفـــــاف',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 38,
                                   fontFamily: 'pp',
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
-                                'احمد ♡ ضحى',
+                                'احمــد ♡ ضحــى',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 38,
                                   fontFamily: 'pp',
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
-                                'Soon',
+                                'حب من اول نظرة',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 34,
-
-                                  fontWeight: FontWeight.normal,
+                                  fontSize: 26,
+                                  fontFamily: 'pp',
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),
+                              CountdownPage(),
                             ],
                           ),
                         ),
                       ),
                     )
-                  : SizedBox.shrink(),
-              isEnding
-                  ? Align(
-                      alignment: Alignment(0, -1.3),
-                      child: ConfettiWidget(
-                        confettiController: _controller,
-                        blastDirectionality: BlastDirectionality.explosive,
-                        emissionFrequency: 0.01,
-                        gravity: 0.1,
-                        minimumSize: Size(10, 5),
-                        maximumSize: Size(20, 30),
-                        shouldLoop: true,
-                        colors: const [
-                          Color.fromARGB(255, 224, 3, 3),
-                          Colors.white,
-                        ],
-                      ),
-                    )
-                  : SizedBox.shrink(),
+                  : SizedBox(),
 
-              isOpen
-                  ? SizedBox.expand(
-                      child: _videoPlayerController.value.isInitialized
-                          ? FittedBox(
-                              fit: BoxFit.cover,
-                              child: SizedBox(
-                                width: _videoPlayerController.value.size.width,
-                                height:
-                                    _videoPlayerController.value.size.height,
-                                child: VideoPlayer(_videoPlayerController),
+              ?GestureDetector(
+                onTap: () async {
+                  await _videoPlayerController.play();
+                },
+                child: AnimatedOpacity(
+                  opacity: isEnding ? 0 : 1,
+                  duration: Duration(seconds: 2),
+                  child: SizedBox.expand(
+                    child: _videoPlayerController.value.isInitialized
+                        ? FittedBox(
+                            fit: BoxFit.cover,
+                            child: SizedBox(
+                              width: _videoPlayerController.value.size.width,
+                              height: _videoPlayerController.value.size.height,
+                              child: VideoPlayer(_videoPlayerController),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.white,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.pink,
                               ),
-                            )
-                          : Center(child: CircularProgressIndicator()),
-                    )
-                  : SizedBox.shrink(),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class CountdownPage extends StatefulWidget {
+  const CountdownPage({super.key});
+
+  @override
+  State<CountdownPage> createState() => _CountdownPageState();
+}
+
+class _CountdownPageState extends State<CountdownPage> {
+  // Set your specific target date and time here.
+  final DateTime targetDate = DateTime(2026, 10, 24, 16, 0, 0);
+
+  Timer? timer;
+  Duration remaining = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    updateCountdown();
+
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => updateCountdown(),
+    );
+  }
+
+  void updateCountdown() {
+    final difference = targetDate.difference(DateTime.now());
+
+    if (!mounted) return;
+
+    setState(() {
+      remaining = difference.isNegative ? Duration.zero : difference;
+    });
+
+    if (difference.inSeconds <= 0) {
+      timer?.cancel();
+    }
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final days = remaining.inDays;
+    final hours = remaining.inHours % 24;
+    final minutes = remaining.inMinutes % 60;
+    final seconds = remaining.inSeconds % 60;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10),
+        Text(
+          '$days ايام',
+          textDirection: TextDirection.rtl,
+          style: const TextStyle(
+            fontSize: 38,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        Text(
+          '${hours.toString().padLeft(2, '0')} : '
+          '${minutes.toString().padLeft(2, '0')} : '
+          '${seconds.toString().padLeft(2, '0')}',
+          style: const TextStyle(fontSize: 32, color: Colors.white),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "قاعة المولى / حي البكر",
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            ),
+            SizedBox(width: 10),
+            Icon(Icons.location_on_outlined, color: Colors.white),
+          ],
+        ),
+      ],
     );
   }
 }
