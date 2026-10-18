@@ -150,9 +150,7 @@ class _MyLoveState extends State<MyLove> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () async {
-                        _videoPlayerController.play();
-                      },
+                      onTap: () async {},
                       child: SizedBox.expand(
                         child: FittedBox(
                           fit: BoxFit.cover,
@@ -163,6 +161,12 @@ class _MyLoveState extends State<MyLove> {
                           ),
                         ),
                       ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        _videoPlayerController.play();
+                      },
+                      child: Text("sadsa"),
                     ),
                   ],
                 ),
