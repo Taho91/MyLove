@@ -22,14 +22,19 @@ class MyLove extends StatefulWidget {
 class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
-  late final VideoPlayerController _videoPlayerController;
+  VideoPlayerController _videoPlayerController = VideoPlayerController.asset(
+    'lib/vv.mp4',
+  );
 
   bool isEnding = false;
+
   @override
   void initState() {
-    _videoPlayerController = VideoPlayerController.asset('lib/vv.mp4');
+    super.initState();
     _videoPlayerController.initialize().then((_) {
+      if (!mounted) return;
       setState(() {});
+      _videoPlayerController.play();
     });
   }
 
@@ -138,7 +143,7 @@ class _MyLoveState extends State<MyLove> {
                             color: Colors.white,
                           ),
                         ),
-                        // CountdownPage(),
+                        CountdownPage(),
                       ],
                     ),
                   ),
@@ -149,25 +154,14 @@ class _MyLoveState extends State<MyLove> {
                   await _videoPlayerController.play();
                 },
                 child: SizedBox.expand(
-                  child: _videoPlayerController.value.isInitialized
-                      ? FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                            width: _videoPlayerController.value.size.width,
-                            height: _videoPlayerController.value.size.height,
-                            child: VideoPlayer(_videoPlayerController),
-                          ),
-                        )
-                      : Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          color: Colors.white,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              color: const Color.fromARGB(255, 2, 185, 191),
-                            ),
-                          ),
-                        ),
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _videoPlayerController.value.size.width,
+                      height: _videoPlayerController.value.size.height,
+                      child: VideoPlayer(_videoPlayerController),
+                    ),
+                  ),
                 ),
               ),
             ],
