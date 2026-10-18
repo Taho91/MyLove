@@ -31,20 +31,6 @@ class _MyLoveState extends State<MyLove> {
     _videoPlayerController.initialize().then((_) {
       setState(() {});
     });
-    _videoPlayerController.addListener(() {
-      final value = _videoPlayerController.value;
-      if (value.isInitialized &&
-          value.duration > Duration.zero &&
-          value.position >= value.duration &&
-          !isEnding) {
-        setState(() {
-          isEnding = true;
-          _controller.play();
-          _audioPlayer.play(AssetSource('m.mp3'));
-        });
-      }
-    });
-    super.initState();
   }
 
   @override
@@ -65,18 +51,17 @@ class _MyLoveState extends State<MyLove> {
           height: double.infinity,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 254, 59, 137),
+            image: DecorationImage(
+              image: AssetImage('lib/doha.jpg'),
+              fit: BoxFit.cover,
+            ),
           ),
           child: Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 100),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/doha.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  decoration: const BoxDecoration(),
                   child: Center(child: SizedBox(height: 20)),
                 ),
               ),
@@ -159,41 +144,32 @@ class _MyLoveState extends State<MyLove> {
                   ),
                 ),
               ),
-              !isEnding
-                  ? GestureDetector(
-                      onTap: () async {
-                        await _videoPlayerController.play();
-                      },
-                      child: SizedBox.expand(
-                        child: _videoPlayerController.value.isInitialized
-                            ? FittedBox(
-                                fit: BoxFit.cover,
-                                child: SizedBox(
-                                  width:
-                                      _videoPlayerController.value.size.width,
-                                  height:
-                                      _videoPlayerController.value.size.height,
-                                  child: VideoPlayer(_videoPlayerController),
-                                ),
-                              )
-                            : Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                color: Colors.white,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      2,
-                                      185,
-                                      191,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                      ),
-                    )
-                  : SizedBox(),
+              GestureDetector(
+                onTap: () async {
+                  await _videoPlayerController.play();
+                },
+                child: SizedBox.expand(
+                  child: _videoPlayerController.value.isInitialized
+                      ? FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: _videoPlayerController.value.size.width,
+                            height: _videoPlayerController.value.size.height,
+                            child: VideoPlayer(_videoPlayerController),
+                          ),
+                        )
+                      : Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors.white,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: const Color.fromARGB(255, 2, 185, 191),
+                            ),
+                          ),
+                        ),
+                ),
+              ),
             ],
           ),
         ),
