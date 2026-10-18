@@ -95,101 +95,98 @@ class _MyLoveState extends State<MyLove> {
                   colors: const [Color.fromARGB(255, 177, 7, 7)],
                 ),
               ),
-              GestureDetector(
-                onTap: () async {
-                  await _videoPlayerController.play();
-                },
-                child: AnimatedOpacity(
-                  opacity: isEnding ? 0 : 1,
-                  duration: Duration(seconds: 2),
-                  child: SizedBox.expand(
-                    child: _videoPlayerController.value.isInitialized
-                        ? FittedBox(
-                            fit: BoxFit.cover,
-                            child: SizedBox(
-                              width: _videoPlayerController.value.size.width,
-                              height: _videoPlayerController.value.size.height,
-                              child: VideoPlayer(_videoPlayerController),
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: Colors.white,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.pink,
-                              ),
-                            ),
-                          ),
+
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color.fromARGB(255, 254, 59, 137),
+                      const Color.fromARGB(255, 254, 59, 137),
+                      const Color.fromARGB(134, 254, 59, 137),
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
                   ),
                 ),
               ),
-              isEnding
-                  ? Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color.fromARGB(255, 254, 59, 137),
-                            const Color.fromARGB(255, 254, 59, 137),
-                            const Color.fromARGB(134, 254, 59, 137),
-                            Colors.transparent,
-                            Colors.transparent,
-                            Colors.transparent,
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-              isEnding
-                  ? Align(
-                      alignment: Alignment(0, 0.8),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: GestureDetector(
-                          onTap: () {
-                            _audioPlayer.play(AssetSource('m.mp3'));
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'زفـــــاف',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 38,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'احمــد ♡ ضحــى',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 38,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'حب من اول نظرة',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              CountdownPage(),
-                            ],
+              Align(
+                alignment: Alignment(0, 0.8),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: GestureDetector(
+                    onTap: () {
+                      _audioPlayer.play(AssetSource('m.mp3'));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'زفـــــاف',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
+                        Text(
+                          'احمــد ♡ ضحــى',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'حب من اول نظرة',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        CountdownPage(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              !isEnding
+                  ? GestureDetector(
+                      onTap: () async {
+                        await _videoPlayerController.play();
+                      },
+                      child: SizedBox.expand(
+                        child: _videoPlayerController.value.isInitialized
+                            ? FittedBox(
+                                fit: BoxFit.cover,
+                                child: SizedBox(
+                                  width:
+                                      _videoPlayerController.value.size.width,
+                                  height:
+                                      _videoPlayerController.value.size.height,
+                                  child: VideoPlayer(_videoPlayerController),
+                                ),
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                color: Colors.white,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.pink,
+                                  ),
+                                ),
+                              ),
                       ),
                     )
                   : SizedBox(),
