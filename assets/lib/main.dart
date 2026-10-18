@@ -23,7 +23,6 @@ class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
   late final VideoPlayerController _videoPlayerController;
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
 
   bool isEnding = false;
   @override
