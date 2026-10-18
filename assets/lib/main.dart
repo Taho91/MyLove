@@ -60,173 +60,191 @@ class _MyLoveState extends State<MyLove> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 254, 59, 137),
-          ),
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/doha.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Center(child: SizedBox(height: 20)),
-                ),
-              ),
-
-              Align(
-                alignment: Alignment(0.5, -1.3),
-                child: ConfettiWidget(
-                  confettiController: _controller,
-                  blastDirectionality: BlastDirectionality.directional,
-                  emissionFrequency: 0.02,
-                  gravity: 0.1,
-                  minimumSize: Size(10, 5),
-                  maximumSize: Size(10, 20),
-                  shouldLoop: true,
-                  colors: const [Color.fromARGB(255, 177, 7, 7)],
-                ),
-              ),
-
-              Container(
+        body: _videoPlayerController.value.isInitialized
+            ? Container(
                 width: double.infinity,
+                height: double.infinity,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const Color.fromARGB(255, 254, 59, 137),
-                      const Color.fromARGB(255, 254, 59, 137),
-                      const Color.fromARGB(134, 254, 59, 137),
-                      Colors.transparent,
-                      Colors.transparent,
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
+                  color: const Color.fromARGB(255, 205, 203, 204),
                 ),
-              ),
-              Align(
-                alignment: Alignment(0, 0.8),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: GestureDetector(
-                    onTap: () {
-                      _audioPlayer.play(AssetSource('m.mp3'));
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'زفـــــاف',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 38,
-                            fontFamily: 'pp',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          'احمــد ♡ ضحــى',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 38,
-                            fontFamily: 'pp',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Text(
-                          'حب من اول نظرة',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontFamily: 'pp',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                        // CountdownPage(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              !isEnding
-                  ? GestureDetector(
-                      onTap: () async {
-                        await _videoPlayerController.play();
-                      },
-                      child: SizedBox.expand(
-                        child: _videoPlayerController.value.isInitialized
-                            ? FittedBox(
-                                fit: BoxFit.cover,
-                                child: SizedBox(
-                                  width:
-                                      _videoPlayerController.value.size.width,
-                                  height:
-                                      _videoPlayerController.value.size.height,
-                                  child: VideoPlayer(_videoPlayerController),
+                child: Stack(
+                  children: [
+                    AnimatedOpacity(
+                      opacity: isEnding ? 1 : 0,
+                      duration: Duration(seconds: 2),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 100),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('lib/doha.jpg'),
+                                  fit: BoxFit.cover,
                                 ),
-                              )
-                            : Container(
-                                width: double.infinity,
-                                height: double.infinity,
-                                color: Colors.white,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      202,
-                                      6,
-                                      26,
+                              ),
+                              child: Center(child: SizedBox(height: 20)),
+                            ),
+                          ),
+
+                          Align(
+                            alignment: Alignment(0.5, -1.3),
+                            child: ConfettiWidget(
+                              confettiController: _controller,
+                              blastDirectionality:
+                                  BlastDirectionality.directional,
+                              emissionFrequency: 0.02,
+                              gravity: 0.1,
+                              minimumSize: Size(10, 5),
+                              maximumSize: Size(10, 20),
+                              shouldLoop: true,
+                              colors: const [Color.fromARGB(255, 177, 7, 7)],
+                            ),
+                          ),
+
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  const Color.fromARGB(255, 254, 59, 137),
+                                  const Color.fromARGB(255, 254, 59, 137),
+                                  const Color.fromARGB(134, 254, 59, 137),
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment(0, 0.8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _audioPlayer.play(AssetSource('m.mp3'));
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'زفـــــاف',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 38,
+                                        fontFamily: 'pp',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
                                     ),
+                                    Text(
+                                      'احمــد ♡ ضحــى',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 38,
+                                        fontFamily: 'pp',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Text(
+                                      'حب من اول نظرة',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 26,
+                                        fontFamily: 'pp',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    CountdownPage(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    !isEnding
+                        ? GestureDetector(
+                            onTap: () async {
+                              await _videoPlayerController.play();
+                            },
+                            child: SizedBox.expand(
+                              child: _videoPlayerController.value.isInitialized
+                                  ? FittedBox(
+                                      fit: BoxFit.cover,
+                                      child: SizedBox(
+                                        width: _videoPlayerController
+                                            .value
+                                            .size
+                                            .width,
+                                        height: _videoPlayerController
+                                            .value
+                                            .size
+                                            .height,
+                                        child: VideoPlayer(
+                                          _videoPlayerController,
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      color: Colors.white,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          color: const Color.fromARGB(
+                                            255,
+                                            202,
+                                            6,
+                                            26,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                          )
+                        : SizedBox(),
+                    !isopen
+                        ? Align(
+                            alignment: Alignment(0, 0.8),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll<Color?>(
+                                  const Color.fromARGB(255, 190, 21, 9),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isopen = true;
+                                });
+                                _videoPlayerController.play();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "فتح",
+                                  style: TextStyle(
+                                    color: Colors.white,
+
+                                    fontSize: 24,
+                                    letterSpacing: 0,
                                   ),
                                 ),
                               ),
-                      ),
-                    )
-                  : SizedBox(),
-              !isopen
-                  ? Align(
-                      alignment: Alignment(0, 0.8),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll<Color?>(
-                            const Color.fromARGB(255, 190, 21, 9),
-                          ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isopen = true;
-                          });
-                          _videoPlayerController.play();
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "فتح",
-                            style: TextStyle(
-                              color: Colors.white,
-
-                              fontSize: 30,
-                              letterSpacing: 0,
                             ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-            ],
-          ),
-        ),
+                          )
+                        : SizedBox(),
+                  ],
+                ),
+              )
+            : Center(child: CircularProgressIndicator(color: Colors.pink)),
       ),
     );
   }
