@@ -22,19 +22,29 @@ class MyLove extends StatefulWidget {
 class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
-  VideoPlayerController _videoPlayerController = VideoPlayerController.asset(
-    'lib/xx.mp4',
-  );
+  late final VideoPlayerController _videoPlayerController;
 
   bool isEnding = false;
-
   @override
   void initState() {
-    super.initState();
+    _videoPlayerController = VideoPlayerController.asset('lib/vv.mp4');
     _videoPlayerController.initialize().then((_) {
-      if (!mounted) return;
       setState(() {});
     });
+    _videoPlayerController.addListener(() {
+      final value = _videoPlayerController.value;
+      if (value.isInitialized &&
+          value.duration > Duration.zero &&
+          value.position >= value.duration &&
+          !isEnding) {
+        setState(() {
+          isEnding = true;
+          _controller.play();
+          _audioPlayer.play(AssetSource('m.mp3'));
+        });
+      }
+    });
+    super.initState();
   }
 
   @override
@@ -50,128 +60,152 @@ class _MyLoveState extends State<MyLove> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: _videoPlayerController.value.isInitialized
-            ? Container(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 254, 59, 137),
+          ),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 100),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('lib/doha.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Center(child: SizedBox(height: 20)),
+                ),
+              ),
+
+              Align(
+                alignment: Alignment(0.5, -1.3),
+                child: ConfettiWidget(
+                  confettiController: _controller,
+                  blastDirectionality: BlastDirectionality.directional,
+                  emissionFrequency: 0.02,
+                  gravity: 0.1,
+                  minimumSize: Size(10, 5),
+                  maximumSize: Size(10, 20),
+                  shouldLoop: true,
+                  colors: const [Color.fromARGB(255, 177, 7, 7)],
+                ),
+              ),
+
+              Container(
                 width: double.infinity,
-                height: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 254, 59, 137),
-                  image: DecorationImage(
-                    image: AssetImage('lib/doha.jpg'),
-                    fit: BoxFit.cover,
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color.fromARGB(255, 254, 59, 137),
+                      const Color.fromARGB(255, 254, 59, 137),
+                      const Color.fromARGB(134, 254, 59, 137),
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.transparent,
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
                   ),
                 ),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      child: Container(
-                        decoration: const BoxDecoration(),
-                        child: Center(child: SizedBox(height: 20)),
-                      ),
-                    ),
-
-                    Align(
-                      alignment: Alignment(0.5, -1.3),
-                      child: ConfettiWidget(
-                        confettiController: _controller,
-                        blastDirectionality: BlastDirectionality.directional,
-                        emissionFrequency: 0.02,
-                        gravity: 0.1,
-                        minimumSize: Size(10, 5),
-                        maximumSize: Size(10, 20),
-                        shouldLoop: true,
-                        colors: const [Color.fromARGB(255, 177, 7, 7)],
-                      ),
-                    ),
-
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            const Color.fromARGB(255, 254, 59, 137),
-                            const Color.fromARGB(255, 254, 59, 137),
-                            const Color.fromARGB(134, 254, 59, 137),
-                            Colors.transparent,
-                            Colors.transparent,
-                            Colors.transparent,
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment(0, 0.8),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: GestureDetector(
-                          onTap: () {
-                            _audioPlayer.play(AssetSource('m.mp3'));
-                          },
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'زفـــــاف',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 38,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'احمــد ♡ ضحــى',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 38,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'حب من اول نظرة',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  fontFamily: 'pp',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              CountdownPage(),
-                            ],
+              ),
+              Align(
+                alignment: Alignment(0, 0.8),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: GestureDetector(
+                    onTap: () {
+                      _audioPlayer.play(AssetSource('m.mp3'));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'زفـــــاف',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () async {},
-                      child: SizedBox.expand(
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                            width: _videoPlayerController.value.size.width,
-                            height: _videoPlayerController.value.size.height,
-                            child: VideoPlayer(_videoPlayerController),
+                        Text(
+                          'احمــد ♡ ضحــى',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 38,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
                         ),
-                      ),
+                        Text(
+                          'حب من اول نظرة',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontFamily: 'pp',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        // CountdownPage(),
+                      ],
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _videoPlayerController.play();
-                      },
-                      child: Text("sadsa"),
-                    ),
-                  ],
+                  ),
                 ),
-              )
-            : Center(child: CircularProgressIndicator(color: Colors.red)),
+              ),
+              !isEnding
+                  ? GestureDetector(
+                      onTap: () async {
+                        await _videoPlayerController.play();
+                      },
+                      child: SizedBox.expand(
+                        child: _videoPlayerController.value.isInitialized
+                            ? FittedBox(
+                                fit: BoxFit.cover,
+                                child: SizedBox(
+                                  width:
+                                      _videoPlayerController.value.size.width,
+                                  height:
+                                      _videoPlayerController.value.size.height,
+                                  child: VideoPlayer(_videoPlayerController),
+                                ),
+                              )
+                            : Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                color: Colors.white,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: const Color.fromARGB(
+                                      255,
+                                      2,
+                                      185,
+                                      191,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ),
+                    )
+                  : SizedBox(),
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _videoPlayerController.play();
+                  },
+                  child: Text("فتح"),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
