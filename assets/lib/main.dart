@@ -23,7 +23,7 @@ class _MyLoveState extends State<MyLove> {
   final _controller = ConfettiController(duration: const Duration(seconds: 10));
   AudioPlayer _audioPlayer = AudioPlayer();
   late final VideoPlayerController _videoPlayerController;
-
+  bool isopen = false;
   bool isEnding = false;
   @override
   void initState() {
@@ -184,9 +184,9 @@ class _MyLoveState extends State<MyLove> {
                                   child: CircularProgressIndicator(
                                     color: const Color.fromARGB(
                                       255,
-                                      2,
-                                      185,
-                                      191,
+                                      202,
+                                      6,
+                                      26,
                                     ),
                                   ),
                                 ),
@@ -194,15 +194,36 @@ class _MyLoveState extends State<MyLove> {
                       ),
                     )
                   : SizedBox(),
-              Align(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _videoPlayerController.play();
-                  },
-                  child: Text("فتح"),
-                ),
-              ),
+              !isopen
+                  ? Align(
+                      alignment: Alignment(0, 0.8),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll<Color?>(
+                            const Color.fromARGB(255, 190, 21, 9),
+                          ),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isopen = true;
+                          });
+                          _videoPlayerController.play();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "فتح",
+                            style: TextStyle(
+                              color: Colors.white,
+
+                              fontSize: 30,
+                              letterSpacing: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
             ],
           ),
         ),
