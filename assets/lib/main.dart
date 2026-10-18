@@ -182,7 +182,12 @@ class _MyLoveState extends State<MyLove> {
                                 color: Colors.white,
                                 child: Center(
                                   child: CircularProgressIndicator(
-                                    color: Colors.pink,
+                                    color: const Color.fromARGB(
+                                      255,
+                                      2,
+                                      185,
+                                      191,
+                                    ),
                                   ),
                                 ),
                               ),
